@@ -1,1 +1,58 @@
+version: '3.8'
 
+networks:
+  pop-net:
+    driver: bridge
+
+services:
+  ntp:
+    build: ./ntp
+    container_name: ntp_server
+    networks:
+      - pop-net
+    ports:
+      - "123:123/udp"
+    cap_add:
+      - SYS_TIME
+
+  dns:
+    build: ./dns
+    container_name: dns_server
+    networks:
+      - pop-net
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+
+  vpn:
+    build: ./vpn
+    container_name: vpn_server
+    networks:
+      - pop-net
+    ports:
+      - "1194:1194/udp"
+    cap_add:
+      - NET_ADMIN
+
+  radius:
+    build: ./radius
+    container_name: radius_server
+    networks:
+      - pop-net
+    ports:
+      - "1812:1812/udp"
+
+  postgres:
+    build: ./postgres
+    container_name: postgres_db
+    networks:
+      - pop-net
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=mydb
+
+volumes:
+  pg-data:
