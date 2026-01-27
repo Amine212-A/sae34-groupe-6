@@ -8,16 +8,5 @@ CREATE TABLE radcheck (
 );
 
 -- Ajout de l'utilisateur Bob pour le test
-INSERT INTO
-    radcheck (
-        username,
-        attribute,
-        op,
-        value
-    )
-VALUES (
-        'bob',
-        'Cleartext-Password',
-        ':=',
-        'hello'
-    );
+INSERT INTO radcheck (username, attribute, op, value) 
+VALUES ('bob', 'Cleartext-Password', ':=', 'hello');
