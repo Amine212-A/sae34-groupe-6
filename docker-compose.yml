@@ -47,6 +47,7 @@ services:
       - NET_ADMIN
     devices:
       - /dev/net/tun
+
   radius:
     build: ./radius
     container_name: radius_server
